@@ -1,0 +1,21 @@
+description: >
+  Validates an app manifest, checking that it meets schema requirements
+
+executor: default
+
+parameters:
+  api-url:
+    type: string
+    default: https://sonar.takescoop.com
+    description: The base URL for the SONAR API
+  manifest-path:
+    type: string
+    default: .scoop/app.yml
+    description: The relative path to the app manifest in the repository
+
+steps:
+  - install
+  - authenticate
+  - validate:
+      api-url: << parameters.api-url >>
+      manifest-path: << parameters.manifest-path >>
