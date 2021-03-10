@@ -27,4 +27,4 @@ steps:
           --header "Authorization: Bearer ${<< parameters.token-variable >>}" \
           --header "Content-Type: application/json" \
           --data "$data" \
-          "<< parameter.api-url >>/schema/validate"
+          "<< parameters.api-url >>/schema/validate"
