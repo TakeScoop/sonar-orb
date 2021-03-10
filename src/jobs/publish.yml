@@ -1,0 +1,43 @@
+description: >
+  Publishes an app manifest and associated container image version
+
+executor: default
+
+parameters:
+  credentials-variable:
+    type: env_var_name
+    default: SONAR_CREDENTIALS
+    description: An environment variable name that holds Google service account credentials as JSON
+  api-url:
+    type: string
+    default: https://harbormaster.takescoop.com
+    description: The base URL for the SONAR API
+  manifest-path:
+    type: string
+    default: .scoop/app.yml
+    description: The relative path to the app manifest in the repository
+
+  version:
+    type: string
+    description: The version identifier for the build to be published
+  
+  before:
+    type: steps
+    default: []
+    description: Steps to execute before publishing
+  after:
+    type: steps
+    default: []
+    description: Steps to execute after publishing
+
+steps:
+  - checkout
+  - install
+  - authenticate:
+      credentials-variable: << parameters.credentials-variable >>
+  - steps: << parameters.before >>
+  - publish:
+      api-url: << parameters.api-url >>
+      manifest-path: << parameters.manifest-path >>
+      version: << parameters.version >>
+  - steps: << parameters.after >>
