@@ -16,6 +16,10 @@ parameters:
 
 steps:
   - run:
+      name: Create install directory
+      command: |-
+        mkdir -p "$HOME/.local/bin"
+  - run:
       name: Install oauth2l
       command: |-
         curl --silent --location "https://storage.googleapis.com/oauth2l/<< parameters.oauth2l-version >>/linux_amd64.tgz" | tar xvz -C "$HOME/.local/bin"
