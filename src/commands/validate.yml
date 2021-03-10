@@ -16,8 +16,6 @@ parameters:
 
 steps:
   - run:
-      environment:
-        PARAM_TO: <<parameters.to>>
       name: Validate app manifest (<< parameters.manifest-path >>)
       command: |-
         data="$(yq eval '<< parameters.manifest-path >>' --tojson | jq '{content: .}')"
