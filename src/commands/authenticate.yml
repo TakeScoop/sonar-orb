@@ -1,0 +1,22 @@
+description: >
+  Authenticates with Google Cloud using service account credentials and saves a token to $SONAR_TOKEN
+parameters:
+  credentials-variable:
+    type: env_var_name
+    default: SONAR_CREDENTIALS
+    description: An environment variable name that holds Google service account credentials as JSON
+  token-variable:
+    type: env_var_name
+    default: SONAR_TOKEN
+    description: An environment variable name where the obtained token will be written
+  oauth2l-version:
+    type: string
+    default: '1.1.0'
+    description: The version of https://github.com/google/oauth2l that will be installed
+
+steps:
+  - run:
+      name: Fetch Google Cloud OAuth token
+      command: |-
+        token="$(oauth2l fetch --credentials <(echo "${<< parameters.credentials-variable >>}") --scope cloud-platform)"
+        echo "export << parameters.token-variable >>=$token" >> $BASH_ENV

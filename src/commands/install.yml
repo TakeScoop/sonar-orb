@@ -1,0 +1,33 @@
+description: >
+  Installs required dependencies
+parameters:
+  oauth2l-version:
+    type: string
+    default: '1.1.0'
+    description: The version of https://github.com/google/oauth2l that will be installed
+  yq-version:
+    type: string
+    default: '4.6.1'
+    description: The version of https://github.com/mikefarah/yq that will be installed
+  jq-version:
+    type: string
+    default: '1.6'
+    description: The version of https://stedolan.github.io/jq that will be installed
+
+steps:
+  - run:
+      name: Install oauth2l
+      command: |-
+        curl --silent --location "https://storage.googleapis.com/oauth2l/<< parameters.oauth2l-version >>/linux_amd64.tgz" | tar xvz -C /usr/bin
+  - run:
+      name: Install yq
+      command: |-
+        curl --silent --location "https://github.com/mikefarah/yq/releases/download/v<< parameters.yq-version >>/yq_linux_amd64.tar.gz" | tar xvz -C /usr/bin
+  - run:
+      name: Install jq
+      command: |-
+        cd "$(mktemp -d)"
+        curl --silent --location --output jq "https://github.com/stedolan/jq/releases/download/jq-<< parameters.jq-version >>/jq-linux64"
+        mv jq /usr/bin
+
+        

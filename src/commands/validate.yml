@@ -1,0 +1,32 @@
+description: >
+  Validates an app manifest, checking that it meets schema requirements
+parameters:
+  api-url:
+    type: string
+    default: https://sonar.takescoop.com
+    description: The base URL for the SONAR API
+  manifest-path:
+    type: string
+    default: .scoop/app.yml
+    description: The relative path to the app manifest in the repository
+  token-variable:
+    type: env_var_name
+    default: SONAR_TOKEN
+    description: An environment variable that holds the SONAR API token
+
+steps:
+  - run:
+      environment:
+        PARAM_TO: <<parameters.to>>
+      name: Validate app manifest (<< parameters.manifest-path >>)
+      command: |-
+        data="$(yq eval '<< parameters.manifest-path >>' --tojson | jq '{content: .}')"
+
+        curl \
+          --silent \
+          --show-error \
+          --fail \
+          --header "Authorization: Bearer ${<< parameters.token-variable >>}" \
+          --header "Content-Type: application/json" \
+          --data "$data" \
+          "<< parameter.api-url >>/schema/validate"
