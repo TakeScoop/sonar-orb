@@ -22,11 +22,15 @@ steps:
   - run:
       name: Install oauth2l
       command: |-
-        curl --silent --location "https://storage.googleapis.com/oauth2l/<< parameters.oauth2l-version >>/linux_amd64.tgz" | tar xvz -C "$HOME/.local/bin"
+        cd "$(mktemp -d)"
+        curl --silent --location "https://storage.googleapis.com/oauth2l/<< parameters.oauth2l-version >>/linux_amd64.tgz" | tar xvz
+        mv linux_amd64 "$HOME/.local/bin/oauth2l"
   - run:
       name: Install yq
       command: |-
-        curl --silent --location "https://github.com/mikefarah/yq/releases/download/v<< parameters.yq-version >>/yq_linux_amd64.tar.gz" | tar xvz -C "$HOME/.local/bin"
+        cd "$(mktemp -d)"
+        curl --silent --location "https://github.com/mikefarah/yq/releases/download/v<< parameters.yq-version >>/yq_linux_amd64.tar.gz" | tar xvz
+        mv yq_linux_amd64 "$HOME/.local/bin/yq"
   - run:
       name: Install jq
       command: |-
