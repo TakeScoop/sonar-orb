@@ -3,7 +3,7 @@ description: >
 parameters:
   api-url:
     type: string
-    default: https://sonar.takescoop.com
+    default: https://harbormaster.takescoop.com
     description: The base URL for the SONAR API
   manifest-path:
     type: string
