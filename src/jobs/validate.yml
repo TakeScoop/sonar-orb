@@ -18,6 +18,7 @@ parameters:
     description: The relative path to the app manifest in the repository
 
 steps:
+  - checkout
   - install
   - authenticate:
       credentials-variable: << parameters.credentials-variable >>
