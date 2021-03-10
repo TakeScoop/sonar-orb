@@ -20,7 +20,7 @@ steps:
       command: |-
         cd "$(mktemp -d)"
         curl --silent --location "https://storage.googleapis.com/oauth2l/<< parameters.oauth2l-version >>/linux_amd64.tgz" | tar xvz
-        mv linux_amd64 "$HOME/.local/bin/oauth2l"
+        mv linux_amd64/oauth2l "$HOME/.local/bin"
   - run:
       name: Install yq
       command: |-
