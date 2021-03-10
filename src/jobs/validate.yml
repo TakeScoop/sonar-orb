@@ -4,6 +4,10 @@ description: >
 executor: default
 
 parameters:
+  credentials-variable:
+    type: env_var_name
+    default: SONAR_CREDENTIALS
+    description: An environment variable name that holds Google service account credentials as JSON
   api-url:
     type: string
     default: https://sonar.takescoop.com
@@ -15,7 +19,8 @@ parameters:
 
 steps:
   - install
-  - authenticate
+  - authenticate:
+      credentials-variable: << parameters.credentials-variable >>
   - validate:
       api-url: << parameters.api-url >>
       manifest-path: << parameters.manifest-path >>
