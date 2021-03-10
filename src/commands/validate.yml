@@ -7,7 +7,7 @@ parameters:
     description: The base URL for the SONAR API
   manifest-path:
     type: string
-    default: .scoop/app.yml
+    default: .scoop/app.yaml
     description: The relative path to the app manifest in the repository
   token-variable:
     type: env_var_name
