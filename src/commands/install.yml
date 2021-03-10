@@ -9,10 +9,6 @@ parameters:
     type: string
     default: '4.6.1'
     description: The version of https://github.com/mikefarah/yq that will be installed
-  jq-version:
-    type: string
-    default: '1.6'
-    description: The version of https://stedolan.github.io/jq that will be installed
 
 steps:
   - run:
@@ -31,11 +27,3 @@ steps:
         cd "$(mktemp -d)"
         curl --silent --location "https://github.com/mikefarah/yq/releases/download/v<< parameters.yq-version >>/yq_linux_amd64.tar.gz" | tar xvz
         mv yq_linux_amd64 "$HOME/.local/bin/yq"
-  - run:
-      name: Install jq
-      command: |-
-        cd "$(mktemp -d)"
-        curl --silent --location --output jq "https://github.com/stedolan/jq/releases/download/jq-<< parameters.jq-version >>/jq-linux64"
-        mv jq "$HOME/.local/bin"
-
-        
