@@ -1,0 +1,44 @@
+description: >
+  Validates an app manifest, checking that it meets schema requirements
+parameters:
+  api-url:
+    type: string
+    default: https://harbormaster.takescoop.com
+    description: The base URL for the SONAR API
+  manifest-path:
+    type: string
+    default: .scoop/app.yaml
+    description: The relative path to the app manifest in the repository
+  token-variable:
+    type: env_var_name
+    default: SONAR_TOKEN
+    description: An environment variable that holds the SONAR API token
+  version:
+    type: string
+    description: The version identifier for the build to be published
+
+steps:
+  - run:
+      name: Publish package (<< parameters.manifest-path >>)
+      command: |-
+        manifest="$(yq eval '<< parameters.manifest-path >>' --tojson)"
+        app="$(echo "$manifest" | jq -r '.app.name')"
+        time="$(git show --no-patch --format=%cI)"
+        data="$(jq \
+          --null-input \
+          --arg manifest "$manifest" \
+          --arg time "$time" \
+          --arg version "<< parameters.version >>" \
+          --arg ci_url "$CIRCLE_BUILD_URL" \
+          --arg vcs_url "${CIRCLE_REPOSITORY_URL}/commit/${CIRCLE_SHA1}" \
+          '{appManifest: $manifest, commitTime: $time, version: $version, metadata: {ciBuildUrl: $ci_url, commitUrl: $vcs_url}}'
+        )"
+
+        curl \
+          --silent \
+          --show-error \
+          --fail \
+          --header "Authorization: Bearer ${<< parameters.token-variable >>}" \
+          --header "Content-Type: application/json" \
+          --data "$data" \
+          "<< parameters.api-url >>/packages?appName=${app}"
