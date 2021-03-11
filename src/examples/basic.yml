@@ -1,0 +1,17 @@
+description: >
+  Validates on all runs, publishes when merged to master. Generates a random version. In actual usage, the version should be a tag defined on the related container image.
+usage:
+  version: 2.1
+  orbs:
+    sonar: takescoop/sonar@1.2.3
+  workflows:
+    main:
+      jobs:
+        - sonar/validate
+        - sonar/publish:
+            before:
+              - run: echo "export VERSION=$RANDOM" >> $BASH_ENV
+            version: $VERSION
+            filters:
+              branches:
+                only: master

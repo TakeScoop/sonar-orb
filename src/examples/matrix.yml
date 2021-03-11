@@ -1,0 +1,27 @@
+description: >
+  Validates and publishes multiple targets using a matrix
+usage:
+  version: 2.1
+  orbs:
+    sonar: takescoop/sonar@1.2.3
+  workflows:
+    main:
+      jobs:
+        - sonar/validate:
+            matrix:
+              parameters:
+                manifest-path:
+                  - .scoop/apps/app-1.yaml
+                  - .scoop/apps/app-2.yaml
+        - sonar/publish:
+            matrix:
+              parameters:
+                manifest-path:
+                  - .scoop/apps/app-1.yaml
+                  - .scoop/apps/app-2.yaml
+            before:
+              - run: echo "export VERSION=$RANDOM" >> $BASH_ENV
+            version: $VERSION
+            filters:
+              branches:
+                only: master
