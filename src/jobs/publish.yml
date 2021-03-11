@@ -20,7 +20,7 @@ parameters:
   version:
     type: string
     description: The version identifier for the build to be published
-  
+
   before:
     type: steps
     default: []
