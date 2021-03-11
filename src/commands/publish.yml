@@ -30,7 +30,7 @@ steps:
           --arg time "$time" \
           --arg version "<< parameters.version >>" \
           --arg ci_url "$CIRCLE_BUILD_URL" \
-          --arg vcs_url "${CIRCLE_REPOSITORY_URL}/commit/${CIRCLE_SHA1}" \
+          --arg vcs_url "${CIRCLE_REPOSITORY_URL}/commit/${CIRCLE_SHA1:0:7}" \
           '{appManifest: $manifest, commitTime: $time, version: $version, metadata: {ciBuildUrl: $ci_url, commitUrl: $vcs_url}}'
         )"
 
