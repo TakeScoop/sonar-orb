@@ -34,11 +34,11 @@ steps:
           '{appManifest: $manifest, commitTime: $time, version: $version, metadata: {ciBuildUrl: $ci_url, commitUrl: $vcs_url}}'
         )"
 
-        curl \
-          --silent \
-          --show-error \
-          --fail \
+        wget \
+          --no-verbose \
+          --content-on-error \
+          --output-file - \
           --header "Authorization: Bearer ${<< parameters.token-variable >>}" \
           --header "Content-Type: application/json" \
-          --data "$data" \
+          --post-data "$data" \
           "<< parameters.api-url >>/packages?appName=${app}"
