@@ -20,11 +20,11 @@ steps:
       command: |-
         data="$(yq eval '<< parameters.manifest-path >>' --tojson | jq '{content: .}')"
 
-        curl \
-          --silent \
-          --show-error \
-          --fail \
+        wget \
+          --no-verbose \
+          --content-on-error \
+          --output-file - \
           --header "Authorization: Bearer ${<< parameters.token-variable >>}" \
           --header "Content-Type: application/json" \
-          --data "$data" \
+          --post-data "$data" \
           "<< parameters.api-url >>/schema/validate"
