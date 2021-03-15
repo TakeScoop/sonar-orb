@@ -26,7 +26,7 @@ steps:
         time="$(git show --no-patch --format=%cI)"
         data="$(jq \
           --null-input \
-          --arg manifest "$manifest" \
+          --argjson manifest "$manifest" \
           --arg time "$time" \
           --arg version "<< parameters.version >>" \
           --arg ci_url "$CIRCLE_BUILD_URL" \
